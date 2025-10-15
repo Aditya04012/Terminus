@@ -1,0 +1,146 @@
+                                              ! Documentation
+
+import tkinter as tk
+
+def show_input():
+      - Get text from the Entry widget
+    user_input = entry.get()   
+    - display
+    label.config(text=f"{user_input}" ,fg="white", bg="black")
+
+- initialization
+root=tk.Tk()
+- title & background color
+root.title("GUI")
+root.configure(bg="black") 
+
+- label with bg-backgroundcolor  ,fg-textcolor,font
+label=tk.Label(root, fg="white", bg="black", font=("Arial", 14),border=None)
+label.pack(padx=100)
+
+- entry field or inpur field with properties
+entry=tk.Entry(root,width=30, fg="white", bg="black", insertbackground="white",border=None)
+entry.pack(pady=10)
+
+- submit button and show_input()
+button=tk.Button(root,text="submit",command=show_input,fg="white", bg="black", activebackground="gray", activeforeground="white")
+button.pack(pady=10)
+
+- ending
+root.mainloop()
+
+
+
+
+
+import tkinter as tk
+- library to load Image
+from PIL import Image, ImageTk
+
+
+root=tk.Tk()
+
+root.title("Termio Shell")
+
+- default ht and wt of shell(window)
+root.geometry("800x600")
+
+- disable resizable function in window
+root.resizable(False, False)
+  
+- loading image and resizing and creating photoimage
+bg_image=Image.open('t2.png')
+bg_image=bg_image.resize((800,600))
+bg=ImageTk.PhotoImage(bg_image)
+
+
+- attaching photo to background using Label
+bg_label=tk.Label(root,image=bg)
+bg_label.place(x=0,y=0,relheight=1,relwidth=1)
+
+% Note-> we can not use configure() to attach image,image can be only attahced to Label
+
+
+- ending
+root.mainloop()
+
+
+
+
+import tkinter as tk
+from tkinter import scrolledtext
+import os
+
+
+
+def on_enter(event=None):
+    - Get user input (text after last prompt)
+    command = terminal.get("insert linestart", "end-1c").replace("C:\\>> ", "").strip()
+    print(command)
+    -  If no command, just print a new prompt
+    if not command:
+        terminal.insert(tk.END,os.getcwd()+" > ", "#3FE04F")
+        terminal.mark_set(tk.INSERT, tk.END)
+        return "break"
+
+    - Disable editing while processing
+    terminal.config(state=tk.NORMAL)
+    terminal.insert(tk.END, "\n")
+
+
+    - Add new prompt
+    terminal.insert(tk.END, os.getcwd()+" > " , "#00FF00")
+    terminal.see(tk.END)
+    terminal.mark_set(tk.INSERT, tk.END)
+    return "break"
+
+
+- Imitizaliztion,title ,size ,background
+root = tk.Tk()
+root.title("Termio")
+root.geometry("700x500")
+root.configure(bg="#111111")  # CMD-like background
+
+- terminal widget initialization (root,options)
+
+terminal = scrolledtext.ScrolledText(
+    root,    //The parent Tkinter window where the terminal will appear.
+    bg="#111111", //Background color of the terminal (a dark gray, almost black).
+    fg="#00FF00",  //Default text color (bright green — like a classic terminal)
+    insertbackground="white", //color of the text cursor (the blinking caret).
+    font=("Consolas", 11), //Font and size used for the text — Consolas is a monospace font (important for terminals).
+    wrap=tk.WORD, //Text wraps by words (not cutting words in half)
+    borderwidth=0   //Removes the border around the text box for a cleaner, flat look.
+)
+
+//acking (displaying) the widget
+terminal.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+{
+    
+fill=tk.BOTH---->	      Makes the widget expand both horizontally and vertically.
+expand=True ---->	   Allows it to stretch and occupy all available space.
+padx=10, pady=10 ---->	Adds padding (10px margin) around the widget on all sides.
+
+}
+
+
+
+
+# Insert initial prompt
+- This writes the initial command prompt into the terminal — for example: (tk.END, initial text, color)
+terminal.insert(tk.END, os.getcwd()+" > ", "#00FF00")
+{
+    Part	Meaning
+tk.END --->	Insert the text at the end of the widget’s content.
+os.getcwd()	---> Returns the current working directory (like C:\Users\Aditya).
+
+"#00FF00"	This argument is meant to specify a tag (but here it looks like a color — it will only work if you have defined a tag named "#00FF00" before). Usually, you’d use:
+}
+
+
+- whenever the user presses Enter, Tkinter will call the function:
+terminal.bind("<Return>", on_enter)
+
+root.mainloop()
+
+
